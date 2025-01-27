@@ -1,0 +1,70 @@
+<% layout("/layouts/boilerplate")-%>
+<body>
+    <div class="heading">
+    <b><h2><%=info.title%></h2></b>
+    </div>
+    <div class="show-container">
+    <img src="<%=info.image.url%>" style="width: 20rem;" class="card-img-top" alt="listing_image">
+   <div class="info">
+    <p> <b>Country:</b><%=info.country%></p>
+    <p><b>Price:</b>&#8377;<%=info.price.toLocaleString("en-IN")%></p>
+    <p><b>Description:</b><%=info.description%></p>
+    <p><b>Owner:</b> <%=info.owner.username%></p>
+    <%if(currentUser && currentUser._id.equals(info.owner._id)){%>
+    <div class="del-edit">
+        <button class="add-btn btn btn-dark"><a href="/listings/<%=info._id%>/edit" style="color: white;">Edit</a></button>
+        <form action="/listings/<%=info._id%>/?_method=DELETE" method="post"> <button class="add-btn btn btn-dark">Delete</button></form>
+    </div>
+<%}%>
+   </div>
+</div>
+<div class="review">
+    <h4>Leave a Review</h4>
+    <form action="/listings/<%=info.id%>/reviews" method="post" novalidate class="needs-validation">
+        <div class="mt-4">
+        <label for="rating">Rating</label>
+   <fieldset class="starability-coinFlip">
+        <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+        <input type="radio" id="first-rate1" name="rating" value="1" />
+        <label for="first-rate1" title="Terrible">1 star</label>
+        <input type="radio" id="first-rate2" name="rating" value="2" />
+        <label for="first-rate2" title="Not good">2 stars</label>
+        <input type="radio" id="first-rate3" name="rating" value="3" />
+        <label for="first-rate3" title="Average">3 stars</label>
+        <input type="radio" id="first-rate4" name="rating" value="4" />
+        <label for="first-rate4" title="Very good">4 stars</label>
+        <input type="radio" id="first-rate5" name="rating" value="5" />
+        <label for="first-rate5" title="Amazing">5 stars</label>
+      </fieldset>
+    </div>
+    <div class="mt-4">
+        <label for="comment" class="mb-2">Comments</label>
+        <textarea name="comment" required class="form-control mb-3" id="comment"></textarea>
+    </div>
+    <br><br>
+    <button class="add-btn btn btn-dark">Submit</button>
+    <br><br><br>
+    </form>
+ 
+    </div>
+</div>
+<hr>
+<div class="title"><h3>Reviews</h3>
+</div>
+<div class="show-review-container">
+    <%if(info.reviews.length==0){%>
+        <p>No reviews yet</p>
+    <%}%>
+    <%for(review of info.reviews){%>
+        <div class="show-review">
+<p><%=review.author%></p>
+<p class="starability-result" data-rating="<%=review.rating%>">
+</p>
+<p><%=review.comment%></p>
+<%if(currentUser && currentUser._id.equals(review.author_id)){%>
+    <form action="/listings/<%=info.id%>/reviews/<%=review.id%>/?_method=DELETE" method="post"><button class="add-btn btn btn-dark">Delete</button></form>
+ <%}%>  
+</div>
+<%}%>
+</div>
+</body>
