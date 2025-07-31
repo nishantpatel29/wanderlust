@@ -44,6 +44,6 @@
 
 1. **Clone the repo**  
    ```bash
-   git clone https://github.com/yourusername/wanderlust.git
+   git clone git@github.com:nishantpatel29/wanderlust.git
    cd wanderlust
    
